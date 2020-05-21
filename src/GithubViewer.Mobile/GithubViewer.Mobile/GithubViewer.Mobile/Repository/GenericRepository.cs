@@ -1,5 +1,7 @@
 ﻿using GithubViewer.Core.Exceptions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Diagnostics;
 using System.Net;
@@ -13,6 +15,17 @@ namespace GithubViewer.Core.Repository
     // https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Mobile/eShopOnContainers/eShopOnContainers.Core/Services/RequestProvider/RequestProvider.cs
     public class GenericRepository : IRepository
     {
+        private readonly JsonSerializerSettings _serializerSettings;
+        public GenericRepository()
+        {
+            _serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            _serializerSettings.Converters.Add(new StringEnumConverter());
+        }
         public async Task<T> GetAsync<T>(string uri, string authToken = "")
         {
             try
@@ -26,7 +39,7 @@ namespace GithubViewer.Core.Repository
                 {
                     jsonResult =
                         await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var json = JsonConvert.DeserializeObject<T>(jsonResult);
+                    var json = JsonConvert.DeserializeObject<T>(jsonResult, _serializerSettings);
                     return json;
                 }
 
@@ -62,7 +75,7 @@ namespace GithubViewer.Core.Repository
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     jsonResult = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var json = JsonConvert.DeserializeObject<T>(jsonResult);
+                    var json = JsonConvert.DeserializeObject<T>(jsonResult, _serializerSettings);
                     return json;
                 }
 
@@ -98,7 +111,7 @@ namespace GithubViewer.Core.Repository
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     jsonResult = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var json = JsonConvert.DeserializeObject<TR>(jsonResult);
+                    var json = JsonConvert.DeserializeObject<TR>(jsonResult, _serializerSettings);
                     return json;
                 }
 
@@ -134,7 +147,7 @@ namespace GithubViewer.Core.Repository
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     jsonResult = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var json = JsonConvert.DeserializeObject<T>(jsonResult);
+                    var json = JsonConvert.DeserializeObject<T>(jsonResult, _serializerSettings);
                     return json;
                 }
 

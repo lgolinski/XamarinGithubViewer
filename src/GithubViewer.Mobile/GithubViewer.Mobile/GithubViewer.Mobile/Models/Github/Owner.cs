@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,7 @@ namespace GithubViewer.Core.Models.Github
         public string Login { get; set; }
         public int Id { get; set; }
         public string NodeId { get; set; }
+        [JsonProperty(PropertyName = "avatar_url")]
         public string AvatarUrl { get; set; }
         public string GravatarId { get; set; }
         public string Url { get; set; }

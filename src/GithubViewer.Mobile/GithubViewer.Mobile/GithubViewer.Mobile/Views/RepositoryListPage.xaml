@@ -17,12 +17,15 @@
            FontAttributes="Italic" />
         <ListView x:Name="MyListView"
             ItemsSource="{Binding Projects}"
+            
+            RefreshCommand="{Binding RefreshCommand}"
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
             <!--Built in Cells-->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" d:Text="{Binding Name}" />
+                    <ImageCell ImageSource="{Binding Owner.AvatarUrl}" Text="{Binding Name}" Detail="{Binding Description}">                       
+                    </ImageCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
 

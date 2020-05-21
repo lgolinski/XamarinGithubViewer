@@ -18,6 +18,7 @@ namespace GithubViewer.Core.ViewModels
             OnSearchClick(null);
         }
         public ICommand SearchCommand => new Command<string>(OnSearchClick);
+        public ICommand RefreshCommand => new Command<string>(OnSearchClick);
 
         public string SearchTerm
         {
@@ -42,5 +43,6 @@ namespace GithubViewer.Core.ViewModels
         {
             Projects = (await _gHRepositoryService.SearchRepositoriesAsync(repoName)).ToObservableCollection();
         }
+
     }
 }
