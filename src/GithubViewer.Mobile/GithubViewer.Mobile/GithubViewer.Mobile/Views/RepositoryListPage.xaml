@@ -16,13 +16,13 @@
            SearchCommandParameter="{Binding Source={x:Reference RepoSearch}, Path=Text}"
            FontAttributes="Italic" />
         <ListView x:Name="MyListView"
-            ItemsSource="{Binding Items}"
+            ItemsSource="{Binding Projects}"
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
             <!--Built in Cells-->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding .}" d:Text="{Binding .}" />
+                    <TextCell Text="{Binding Name}" d:Text="{Binding Name}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
 

@@ -8,6 +8,6 @@ namespace GithubViewer.Core.Models.Github
     {
         public int TotalCount { get; set; }
         public bool IncompleteResults { get; set; }
-        public IList<Repository> Items { get; set; }
+        public IEnumerable<Repository> Items { get; set; }
     }
 }
