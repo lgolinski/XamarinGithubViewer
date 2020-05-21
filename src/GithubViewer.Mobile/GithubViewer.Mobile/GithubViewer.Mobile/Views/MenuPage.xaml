@@ -6,13 +6,13 @@
              xmlns:templates="clr-namespace:GithubViewer.Core.Views.Templates"
              x:Class="GithubViewer.Core.Views.MainPageMaster"
              Title="Master">
-  <StackLayout>
+    <StackLayout>
         <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}">
             <ListView.Header>
-                <Grid BackgroundColor="#03A9F4">
+                <Grid BackgroundColor="{StaticResource GithubColor}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
