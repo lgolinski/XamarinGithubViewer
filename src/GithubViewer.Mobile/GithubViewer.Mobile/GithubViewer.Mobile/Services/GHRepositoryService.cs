@@ -1,22 +1,36 @@
 ﻿using GithubViewer.Core.Models.Github;
 using GithubViewer.Core.Repository;
+using GithubViewer.Core.Settings;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GithubViewer.Core.Services
 {
-    public class GHRepositoryService : IGHRepositoryService
+    public class GHProjectService : IGHProjectService
     {
-        private readonly GHSearchRepository _ghSearchRepository;
-        public GHRepositoryService()
+        private IRepository _genericRepository;
+        private string _projectUrl = "search/repositories";
+        public GHProjectService()
         {
-            _ghSearchRepository = new GHSearchRepository();
+            _genericRepository = new GenericRepository();
         }
 
-        // TODO: Implement SearchParameters object.
-        public async Task<IEnumerable<GithubViewer.Core.Models.Github.Repository>> SearchRepositoriesAsync(SearchParameters searchParameter)
+        public async Task<IEnumerable<Project>> SearchRepositoriesAsync(string repoName)
         {
-            var repoResponse = await _ghSearchRepository.GetAsync();
+            string searchBy;
+            if (string.IsNullOrWhiteSpace(repoName))
+                searchBy = "q=language:csharp&sort=stars&order=desc";
+            else
+                searchBy = $"&q={repoName}+language:csharp";
+
+            var uriBuilder = new UriBuilder(ApplicationSettings.GithubApiUrl)
+            {
+                Path = _projectUrl,
+                Query = searchBy
+            };
+
+            var repoResponse = await _genericRepository.GetAsync<ProjectResponse>(uriBuilder.ToString());
 
             return repoResponse.Items;
         }

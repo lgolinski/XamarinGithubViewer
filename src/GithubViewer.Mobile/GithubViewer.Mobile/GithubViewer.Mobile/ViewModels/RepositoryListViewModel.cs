@@ -3,17 +3,19 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using GithubViewer.Core.Extensions;
+using GithubViewer.Core.Models.Github;
 
 namespace GithubViewer.Core.ViewModels
 {
     public class RepositoryListViewModel : BaseViewModel
     {
         private string _searchTerm;
-        private ObservableCollection<GithubViewer.Core.Models.Github.Repository> _projects;
-        private IGHRepositoryService _gHRepositoryService;
+        private ObservableCollection<Project> _projects;
+        private IGHProjectService _gHRepositoryService;
         public RepositoryListViewModel()
         {
-            _gHRepositoryService = new GHRepositoryService();
+            _gHRepositoryService = new GHProjectService();
+            OnSearchClick(null);
         }
         public ICommand SearchCommand => new Command<string>(OnSearchClick);
 
@@ -26,7 +28,7 @@ namespace GithubViewer.Core.ViewModels
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<GithubViewer.Core.Models.Github.Repository> Projects
+        public ObservableCollection<Project> Projects
         {
             get => _projects;
             set
@@ -38,8 +40,7 @@ namespace GithubViewer.Core.ViewModels
 
         public async void OnSearchClick(string repoName)
         {
-            var collection = (await _gHRepositoryService.SearchRepositoriesAsync(null)).ToObservableCollection();
-            Projects = collection;
+            Projects = (await _gHRepositoryService.SearchRepositoriesAsync(repoName)).ToObservableCollection();
         }
     }
 }

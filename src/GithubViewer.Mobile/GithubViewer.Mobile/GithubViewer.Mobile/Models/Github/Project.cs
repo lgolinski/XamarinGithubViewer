@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GithubViewer.Core.Models.Github
 {
-    public class Repository
+    public class Project
     {
         public int Id { get; set; }
         public string NodeId { get; set; }
