@@ -14,6 +14,7 @@ namespace GithubViewer.Core.Views
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
         }
 
+        // TODO: Move this event to view model with using Command.
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = e.SelectedItem as MainPageMenuItem;
